@@ -8,7 +8,7 @@ function HeroSection() {
         <div className="hero-grid">
           <div className="hero-card cactus-card">
              <div className="plants-image">
-              <img src="/src/Assets/f-gwah.jpg" alt="Grow Wealth at Home" />
+              <img src="/Assets/f-gwah.jpg" alt="Grow Wealth at Home" />
             </div>
           </div>
 
@@ -16,7 +16,7 @@ function HeroSection() {
             <div className="card-header">
             </div>
             <div className="plants-image">
-              <img src="/src/Assets/f-bhgv.jpg" alt="Bring Home Good Vibes" />
+              <img src="/Assets/f-bhgv.jpg" alt="Bring Home Good Vibes" />
             </div>
           </div>
 
@@ -24,7 +24,7 @@ function HeroSection() {
             <div className="card-header">
             </div>
             <div className="plants-image">
-              <img src="/src/Assets/f-ryo.jpg" alt="Refresh Your Outdoors" />
+              <img src="/Assets/f-ryo.jpg" alt="Refresh Your Outdoors" />
             </div>
           </div>
         </div>

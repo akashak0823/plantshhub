@@ -2,7 +2,7 @@
   position: fixed;
   width: 30px;
   height: 30px;
-  background-image: url('/src/Assets/leaf.svg');
+  background-image: url('/Assets/leaf.svg');
   background-size: contain;
   background-repeat: no-repeat;
   pointer-events: none;

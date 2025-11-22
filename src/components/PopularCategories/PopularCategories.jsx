@@ -4,22 +4,22 @@ function PopularCategories() {
    const categories = [
     {
       title: "Popular Picks",
-      image: "/src/Assets/pc-pp.jpg",
+      image: "/Assets/pc-pp.jpg",
       color: "#e3f2fd",
     },
     { 
       title: "Plants for Every Space",
-      image: "/src/Assets/pc-pfes.jpg",
+      image: "/Assets/pc-pfes.jpg",
       color: "#f4e4bc",
     },
     {
       title: " Weather-Friendly Greens",
-      image: "/src/Assets/pc-wfg.jpg",
+      image: "/Assets/pc-wfg.jpg",
       color: "#a8d5a8",
     },
     {
       title: " Explore by Personality",
-      image: "/src/Assets/pc-ebp.jpg",
+      image: "/Assets/pc-ebp.jpg",
       color: "#f9e79f",
     },
   ] 

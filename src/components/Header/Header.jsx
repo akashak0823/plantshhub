@@ -11,7 +11,7 @@ function Header() {
           <div className="nav-content">
             <div className="logo">
               <h1>VRINDHAVANAM</h1>
-               <img src="./src/Assets/logo-image.svg" alt="Logo" className='logo-image' />
+               <img src="./Assets/logo-image.svg" alt="Logo" className='logo-image' />
             </div>
 
             <div className={`nav-menu ${isMenuOpen ? "active" : ""}`}>

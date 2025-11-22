@@ -2,11 +2,11 @@ import React from 'react'
 import './CategoryCards.css'
 function CategoryCards() {
     const categories = [
-    { name: "Plants", icon: "🌱", image: "./src/Assets/cate-plants.png" },
-    { name: "Seeds", icon: "🌾", image: "./src/Assets/cate-seeds.jpg" },
-    { name: "Planters", icon: "🏺", image: "./src/Assets/cate-planters.png" },
-    { name: "Plants Care", icon: "💚", image: "./src/Assets/cate-plantcare.jpg" },
-    { name: "Combos", icon: "🎁", image: "./src/Assets/cate-combos.jpg" },
+    { name: "Plants", icon: "🌱", image: "./Assets/cate-plants.png" },
+    { name: "Seeds", icon: "🌾", image: "./Assets/cate-seeds.jpg" },
+    { name: "Planters", icon: "🏺", image: "./Assets/cate-planters.png" },
+    { name: "Plants Care", icon: "💚", image: "./Assets/cate-plantcare.jpg" },
+    { name: "Combos", icon: "🎁", image: "./Assets/cate-combos.jpg" },
   ]
 
   return (
