@@ -1,105 +1,209 @@
-.category-cards {
-  padding: 60px 0;
-  background: white;
+/* CategoryCards.css
+   Mobile-first, fully responsive grid for CategoryCards.
+   - Default: 2-column mobile grid (works well on phones)
+   - 3 cols on tablets, 4 on small desktop, 5 on large desktop
+   - Cards expand to fill column width (no fixed max-width)
+   - Improved spacing, larger tappable areas, accessible focus states
+   - Keeps hover/focus micro-interactions but removes them for reduced-motion
+*/
+
+:root{
+  --container-max: 1200px;
+
+  --bg: #ffffff;
+  --card-bg: #ffffff;
+  --muted: #6b6b6b;
+  --text: #222222;
+  --accent: #2f855a;
+
+  --radius-lg: 14px;
+  --radius-sm: 10px;
+
+  --gap-xl: 28px;
+  --gap-lg: 20px;
+  --gap-md: 16px;
+  --gap-sm: 12px;
+
+  --shadow-sm: 0 6px 18px rgba(16, 24, 40, 0.06);
+  --shadow-lg: 0 18px 40px rgba(16, 24, 40, 0.08);
 }
 
-.categories-grid {
+/* Container parity (keeps spacing consistent with the site) */
+.container{
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(12px, 4vw, 24px);
+  padding-right: clamp(12px, 4vw, 24px);
+  box-sizing: border-box;
+}
+
+/* Section */
+.category-cards{
+  padding: clamp(20px, 5vw, 48px) 0;
+  background: var(--bg);
+}
+
+/* GRID LAYOUT - mobile-first: 2 columns (nice grid on phones) */
+.categories-grid{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 30px;
+  gap: var(--gap-md);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
   justify-items: center;
 }
 
-.category-card {
+/* fallback: single column for extremely small widths */
+@media (max-width: 340px){
+  .categories-grid{
+    grid-template-columns: 1fr;
+    gap: var(--gap-sm);
+  }
+}
+
+/* tablet: 3 columns */
+@media (min-width: 640px){
+  .categories-grid{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gap-lg);
+  }
+}
+
+/* small desktop: 4 columns */
+@media (min-width: 992px){
+  .categories-grid{
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--gap-lg);
+  }
+}
+
+/* large desktop: 5 columns (for your 5 categories) */
+@media (min-width: 1200px){
+  .categories-grid{
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--gap-xl);
+  }
+}
+
+/* CARD - full width of its grid column */
+.category-card{
+  width: 100%;
+  background: var(--card-bg);
+  padding: clamp(12px, 2.2vw, 20px);
+  border-radius: var(--radius-lg);
   text-align: center;
-  cursor: none;
-  transition: transform 0.3s ease;
-  padding: 20px;
-  border-radius: 15px;
-}
-
-.category-card:hover {
-  transform: translateY(-10px);
-}
-
-.category-image {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin: 0 auto 15px;
-  overflow: hidden;
-  background: #f8f9fa;
+  transition: transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms ease;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
   display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  border: 1px solid rgba(16,24,40,0.03);
+  outline: none;
+  min-height: 150px; /* increases tappable area on mobile */
+}
+
+/* Hover & focus micro-interactions */
+.category-card:hover,
+.category-card:focus{
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Keyboard focus visible */
+.category-card:focus{
+  box-shadow: 0 0 0 4px rgba(47,133,90,0.12), var(--shadow-lg);
+  border-radius: calc(var(--radius-lg) + 2px);
+}
+
+/* Image container - larger on mobile for better visibility */
+.category-image{
+  width: clamp(72px, 18vw, 120px);
+  height: clamp(72px, 18vw, 120px);
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: box-shadow 0.3s ease;
+  background: linear-gradient(180deg, rgba(47,133,90,0.04), rgba(47,133,90,0.02));
+  transition: box-shadow 220ms ease, transform 220ms ease;
+  flex-shrink: 0;
 }
 
-.category-card:hover .category-image {
-  box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
+/* image lift on hover/focus */
+.category-card:hover .category-image,
+.category-card:focus .category-image{
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(47,133,90,0.08);
 }
 
-.category-image img {
-  width: 80px;
-  height: 80px;
+/* Image element */
+.category-image img{
+  width: 80%;
+  height: 80%;
   object-fit: cover;
+  display: block;
   border-radius: 50%;
+  pointer-events: none;
 }
 
-.category-card h3 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
+/* Title */
+.category-card h3{
   margin: 0;
+  font-size: clamp(13px, 1.6vw, 16px);
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.2;
+  word-break: break-word;
+  text-wrap: balance;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .categories-grid {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 20px;
+/* Make the entire card reasonably tall on mobile so it's easy to tap */
+@media (max-width: 480px){
+  .category-card{
+    padding: 14px;
+    min-height: 140px;
+    border-radius: 12px;
   }
-
-  .category-image {
-    width: 80px;
-    height: 80px;
+  .category-image{
+    width: 72px;
+    height: 72px;
   }
+  .category-card h3{ font-size: 14px; }
+}
 
-  .category-image img {
-    width: 60px;
-    height: 60px;
-  }
-
-  .category-card h3 {
-    font-size: 14px;
+/* Remove hover effects on touch devices and respect reduced-motion */
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce){
+  .category-card,
+  .category-card:hover,
+  .category-card:focus,
+  .category-card .category-image {
+    transition: none !important;
+    transform: none !important;
+    box-shadow: var(--shadow-sm) !important;
   }
 }
 
-@media (max-width: 480px) {
-  .category-cards {
-    padding: 40px 0;
-  }
+/* If the page needs an alternative "single row scrollable" layout on very narrow screens
+   uncomment the rules below to enable a horizontal scroll instead of a 1/2 column grid.
 
-  .categories-grid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 15px;
-  }
+.categories-grid {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+.categories-grid::-webkit-scrollbar { display: none; }
+.category-card { min-width: 160px; max-width: 220px; flex: 0 0 auto; }
+*/
 
-  .category-card {
-    padding: 15px;
-  }
-
-  .category-image {
-    width: 70px;
-    height: 70px;
-  }
-
-  .category-image img {
-    width: 50px;
-    height: 50px;
-  }
-
-  .category-card h3 {
-    font-size: 12px;
-  }
+/* Print adjustments */
+@media print{
+  .category-cards{ padding: 12px 0; }
+  .category-card{ box-shadow: none; border: 1px solid #eee; }
 }

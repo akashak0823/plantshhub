@@ -1,44 +1,110 @@
+/* Header.css
+   Production-ready, fully responsive header styles for Header.jsx.
+   - Mobile-first
+   - Uses CSS variables for easy theming
+   - Fluid typography with clamp()
+   - Explicit breakpoints: sm (>=480), md (>=768), lg (>=1024), xl (>=1400)
+   - Accessible focus states, keyboard-friendly menu, reduced-motion support
+   - Only CSS changes (no HTML/JS edits required)
+*/
+
+/* ---------------------------
+   Theme vars (tweak if needed)
+   --------------------------- */
+:root{
+  --max-width: 1200px;
+
+  --bg: #ffffff;
+  --trust-bg: #f8f9fa;
+  --text: #1f1f1f;
+  --accent: #4caf50;
+  --muted: #666666;
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+
+  --gap-xs: 8px;
+  --gap-sm: 12px;
+  --gap-md: 20px;
+  --gap-lg: 32px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+}
+
+/* ---------------------------
+   Container parity
+   --------------------------- */
+.container {
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(12px, 3vw, 28px);
+  padding-right: clamp(12px, 3vw, 28px);
+  box-sizing: border-box;
+}
+
+/* ---------------------------
+   Header / nav base
+   --------------------------- */
 .header {
-  background: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: var(--bg);
+  box-shadow: var(--shadow-sm);
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
+/* trust badges bar */
 .trust-badges {
-  background: #f8f9fa;
+  background: var(--trust-bg);
   padding: 8px 0;
   border-bottom: 1px solid #e9ecef;
 }
 
 .badges-list {
   display: flex;
-  justify-content: space-between;
+  gap: var(--gap-md);
   align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 15px;
+  font-size: 13px;
+  color: var(--muted);
 }
 
 .badge {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  color: #666;
+  gap: 10px;
+  color: var(--muted);
+  white-space: nowrap;
 }
 
 .badge-icon {
-  font-size: 22px;
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* navigation area */
 .main-nav {
-  padding: 15px 0;
+  padding: 14px 0;
+  background: transparent;
 }
 
 .nav-content {
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* logo / nav / actions */
+  gap: var(--gap-lg);
+  align-items: center;
+  width: 100%;
+}
+
+/* logo area */
+.logo {
   display: flex;
   align-items: center;
+  gap: var(--gap-sm);
 }
 
 .logo h1 {
@@ -50,133 +116,249 @@
   margin-left:0.1px;
 }
 
-.logo{
-  display:flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-left:50px;
-}
-
+/* logo image (use responsive sizing) */
 .logo-image {
-  width:150px;
-  height:150px;
-  margin-left:50px;
+  width: clamp(48px, 8.6vw, 120px);
+  height: auto;
+  display: block;
+  object-fit: contain;
+  border-radius: 6px;
 }
 
+/* main navigation links */
 .nav-menu {
   display: flex;
-  gap: 50px;
+  gap: clamp(12px, 3.2vw, 48px);
   align-items: center;
-  margin-left:200px;
+  justify-content: center;
+  flex-wrap: nowrap;
 }
 
+/* link appearance */
 .nav-menu a {
   text-decoration: none;
   color: #014421;
   font-weight: 500;
-  font-size: 20px;
-  transition: color 0.3s ease;
+  font-size: clamp(14px, 1.6vw, 20px);
   position: relative;
+  padding: 6px 2px;
+  transition: color 180ms ease, transform 180ms ease;
 }
 
-.nav-menu a:hover {
-  color: #4caf50;
-}
-
+/* underline animation */
 .nav-menu a::after {
   content: "";
   position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -5px;
   left: 0;
-  background-color: #4caf50;
-  transition: width 0.3s ease;
+  right: auto;
+  bottom: -6px;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  transition: width 200ms ease;
 }
 
-.nav-menu a:hover::after {
+.nav-menu a:hover,
+.nav-menu a:focus {
+  color: var(--accent);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.nav-menu a:hover::after,
+.nav-menu a:focus::after {
   width: 100%;
 }
 
+/* actions on the right */
 .nav-actions {
   display: flex;
-  gap: 50px;
+  gap: var(--gap-md);
   align-items: center;
-  margin-left:200px;
+  justify-self: end;
 }
 
-.search-btn ,
-.cart-btn {
+/* icon buttons */
+.search-btn,
+.cart-btn,
+.menu-toggle {
   background: none;
   border: none;
-  font-size: 30px;
-  cursor: none;
   padding: 8px;
-  border-radius: 50%;
-  transition: background-color 0.3s ease;
+  border-radius: 8px;
+  font-size: 20px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; /* accessible pointer */
+  transition: background-color 160ms ease, transform 160ms ease;
 }
 
 .search-btn:hover,
-.cart-btn:hover {
-  background-color: #f0f0f0;
+.cart-btn:hover,
+.menu-toggle:hover,
+.search-btn:focus,
+.cart-btn:focus,
+.menu-toggle:focus {
+  background: #f2f2f2;
+  transform: translateY(-2px);
+  outline: none;
 }
 
+/* hide the menu-toggle on desktop; show on mobile later */
 .menu-toggle {
   display: none;
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: none;
 }
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
+/* ---------------------------
+   Mobile-first menu styles (hidden by default)
+   --------------------------- */
+.nav-menu {
+  /* for mobile we will transform the menu into a horizontal center on larger screens;
+     on small screens the JS will toggle .active to show the menu (we provide CSS animations) */
+}
+
+/* mobile menu (collapsed) */
+@media (max-width: 767.98px) {
   .badges-list {
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
   }
 
-  .badge {
-    font-size: 10px;
+  .main-nav { padding: 10px 0; }
+
+  .nav-content {
+    grid-template-columns: 1fr auto; /* logo | actions */
+    align-items: center;
   }
 
+  .logo { gap: 10px; }
+
+  /* hide primary nav by default on small screens — use absolute full-width panel when active */
   .nav-menu {
     position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
+    inset: 64px 12px auto 12px; /* top, right, bottom, left */
+    background: var(--bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    padding: 16px;
     flex-direction: column;
-    padding: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transform: translateY(-100%);
+    gap: 12px;
+    transform-origin: top center;
+    transform: translateY(-8px) scale(.995);
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    transition: opacity 220ms ease, transform 220ms ease, visibility 220ms;
+    z-index: 1200;
   }
 
+  .nav-menu a {
+    font-size: 16px;
+    padding: 10px 12px;
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+  }
+
+  /* when JS toggles .active — visible */
   .nav-menu.active {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     opacity: 1;
     visibility: visible;
   }
 
-  .menu-toggle {
-    display: block;
+  .nav-actions {
+    gap: 8px;
+    justify-self: end;
   }
 
-  .logo h1 {
-    font-size: 24px;
+  .menu-toggle {
+    display: inline-flex;
   }
+
+  /* reduce logo size on small screens */
+  .logo h1 { font-size: clamp(18px, 3.6vw, 22px); }
+  .logo-image { width: 44px; }
 }
 
-@media (max-width: 480px) {
-  .badges-list {
-    flex-direction: column;
-    gap: 5px;
+/* ---------------------------
+   Medium screens (tablet and up)
+   --------------------------- */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .nav-content {
+    grid-template-columns: auto 1fr auto;
+    gap: var(--gap-md);
   }
 
-  .badge {
-    font-size: 9px;
+  .nav-menu {
+    gap: clamp(10px, 2vw, 28px);
+    justify-content: center;
   }
+
+  .nav-actions {
+    gap: var(--gap-sm);
+  }
+
+  .logo-image { width: 72px; }
+}
+
+/* ---------------------------
+   Large screens (desktop)
+   --------------------------- */
+@media (min-width: 1024px) {
+  .nav-content {
+    grid-template-columns: auto 1fr auto;
+    gap: var(--gap-lg);
+    align-items: center;
+  }
+
+  .nav-menu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    flex-direction: row;
+    gap: clamp(16px, 3vw, 48px);
+  }
+
+  .nav-menu a { padding: 6px 2px; }
+
+  .nav-actions { gap: var(--gap-lg); }
+  .menu-toggle { display: none; }
+}
+
+/* ---------------------------
+   Extra large screens adjustments
+   --------------------------- */
+@media (min-width: 1400px) {
+  .container { max-width: 1400px; }
+  .nav-menu { gap: 48px; }
+  .logo-image { width: 110px; }
+}
+
+/* ---------------------------
+   Focus & accessibility helpers
+   --------------------------- */
+a:focus, button:focus, .nav-menu a:focus {
+  outline: 3px solid rgba(76,175,80,0.12);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ensure keyboard users can open the mobile menu if JS toggles .active on the element */
+.nav-menu[aria-hidden="true"] { display: none; }
+
+/* Reduce motion for users who ask for it */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* ---------------------------
+   Print adjustments
+   --------------------------- */
+@media print {
+  .header { position: static; box-shadow: none; }
+  .trust-badges { display: none; }
+  .nav-actions, .menu-toggle { display: none; }
 }

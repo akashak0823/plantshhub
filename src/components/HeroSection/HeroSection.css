@@ -1,109 +1,278 @@
-.hero-section {
-  padding: 40px 30px;
-  background: #f8f9fa;
+/* HeroSection.css
+   Fully responsive, production-ready CSS for the provided HeroSection component.
+   - Uses CSS variables for easy theming
+   - Fluid sizes with clamp()
+   - Breakpoints: xl (>=1400), lg (>=1024), md (>=768), sm (>=480), xs (<480)
+   - All changes are contained to CSS only (no HTML changes)
+*/
+
+/* ---------------------------
+   Theme variables (tweak here)
+   --------------------------- */
+:root{
+  --container-max: 1200px;
+  --bg: #f8f9fa;
+  --card-radius: 20px;
+  --card-radius-sm: 14px;
+  --accent: rgba(144,238,144,0.45);
+  --shadow-sm: 0 8px 24px rgba(16,24,40,0.06);
+  --shadow-lg: 0 18px 40px rgba(16,24,40,0.12);
+  --gap-xl: 30px;
+  --gap-lg: 20px;
+  --gap-md: 16px;
+  --min-card-height: 300px;
+  --min-card-height-lg: 370px;
 }
 
+/* Basic container parity (if you use a global .container) */
+.container{
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(16px, 3vw, 32px);
+  padding-right: clamp(16px, 3vw, 32px);
+  box-sizing: border-box;
+}
+
+/* ---------------------------
+   Section base
+   --------------------------- */
+.hero-section {
+  padding: clamp(20px, 4vw, 48px);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Grid: default is single column mobile-first */
 .hero-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 30px;
-  min-height: 300px;
+  grid-template-columns: 1fr;
+  gap: var(--gap-lg);
+  align-items: stretch;
+  min-height: 0;
 }
 
+/* Card base */
 .hero-card {
-  border-radius: 20px;
-  padding: 30px;
-  height: 100%;
-  min-height: 370px;
-  position: relative;
+  position: relative;            /* for absolute plants-image */
+  border-radius: var(--card-radius);
   overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.2));
+  padding: clamp(18px, 2.4vw, 30px);
+  min-height: clamp(var(--min-card-height), 22vh, var(--min-card-height-lg));
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  justify-content: flex-end;
+  transition: transform 320ms cubic-bezier(.2,.9,.3,1), box-shadow 320ms ease;
+  box-shadow: var(--shadow-sm);
 }
 
-.hero-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(144, 238, 144, 0.4);
+/* hover/focus effects */
+.hero-card:hover,
+.hero-card:focus-within{
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  outline: none;
 }
 
+/* Decorative hover glow (keeps subtle) */
+.hero-card::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(180deg, transparent 30%, rgba(255,255,255,0.02) 60%, rgba(0,0,0,0.02) 100%);
+}
 
+/* Plants image overlay — full bleed */
 .plants-image {
   position: absolute;
-  top: 0;
-  left: 0;
-  width:100%;
-  height:100%;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
+  overflow: hidden;
+  border-radius: inherit;
+  background: #e9f6ea; /* subtle fallback */
 }
 
+/* Image itself — cover and keep aspect */
 .plants-image img {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: 100%; 
+  height: 100%;
+  object-fit: cover;
   object-position: center;
   display: block;
-  border-radius: 20px; 
+  transition: transform 420ms cubic-bezier(.2,.9,.3,1), filter 320ms ease;
+  will-change: transform;
+  border-radius: inherit;
+  transform-origin: center;
+  z-index: 0;
 }
 
-.card-dots {
+/* gentle zoom on hover/focus */
+.hero-card:hover .plants-image img,
+.hero-card:focus-within .plants-image img{
+  transform: scale(1.06);
+  filter: saturate(1.03) contrast(1.02);
+}
+
+/* Content area that sits above the image */
+.card-header,
+.card-content {
+  position: relative;
+  z-index: 2; /* above the image */
+}
+
+/* If you add headings or buttons, style them here (keeps contrast) */
+.card-header {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.card-content {
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.45);
+}
+
+/* Dot indicator style (if used) */
+.card-dots{
+  position: relative;
+  z-index: 2;
   display: flex;
   gap: 8px;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
-.dot {
+.dot{
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  transition: background 0.3s ease;
+  background: rgba(255,255,255,0.45);
+  transition: background 240ms ease, transform 240ms ease;
 }
 
-.dot.active {
+.dot.active{
   background: white;
+  transform: scale(1.08);
 }
 
-/* Responsive */
-@media (max-width: 1376px) {
-  .hero-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+/* ---------------------------
+   Responsive breakpoints
+   --------------------------- */
+
+/* Small phones / tiny screens */
+@media (max-width: 420px){
+  :root{
+    --card-radius: var(--card-radius-sm);
   }
-
-  .cactus-card {
-    grid-column: 1 / -1;
+  .hero-section{
+    padding: 16px 12px;
   }
-}
-
-@media (max-width: 768px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
+  .hero-card{
+    padding: 16px;
+    min-height: 220px;
   }
-
-  .hero-card {
-    padding: 25px;
-    min-height: 300px;
-  }
-
-}
-
-@media (max-width: 480px) {
-  .hero-section {
-    padding: 20px 0;
-  }
-
-  .hero-card {
-    padding: 20px;
-    min-height: 250px;
-  }
-
   .card-content h2,
   .hero-card h2 {
-    font-size: 20px;
+    font-size: clamp(18px, 4vw, 20px);
+  }
+}
+
+/* Mobile & small tablets */
+@media (min-width: 421px) and (max-width: 767px){
+  .hero-grid{
+    grid-template-columns: 1fr;
+    gap: var(--gap-md);
+  }
+  .hero-card{
+    padding: clamp(16px, 2.6vw, 26px);
+    min-height: 260px;
+  }
+}
+
+/* Medium devices: 2-column layout; make the first card wider on larger widths if desired */
+@media (min-width: 768px) and (max-width: 1023px){
+  .hero-grid{
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gap-md);
+    align-items: stretch;
   }
 
-  .green-life-card h2 {
-    font-size: 24px;
+  /* If you want the cactus-card to span full width on medium screens, uncomment:
+     .cactus-card { grid-column: 1 / -1; }
+     The original code had cactus spanning; keep as optional.
+  */
+  .hero-card{
+    min-height: 320px;
   }
+}
+
+/* Large devices: 3-column desktop layout */
+@media (min-width: 1024px){
+  .hero-grid{
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap-lg);
+  }
+
+  /* On large desktop, you may want the leftmost card to span two columns (hero layout).
+     The original snippet set cactus-card full-width at some breakpoint. If you want
+     cactus-card to be a full-width hero on wide screens, use the below rule (commented). */
+
+  /* Example hero-left across two columns on >=1024 and <1400:
+  @media (min-width: 1024px) and (max-width: 1399px){
+    .cactus-card { grid-column: 1 / -1; }
+  }
+  */
+
+  .hero-card{
+    min-height: var(--min-card-height-lg);
+    padding: clamp(20px, 2.6vw, 32px);
+  }
+}
+
+/* Extra-large: keep three columns but increase spacing & height */
+@media (min-width: 1400px){
+  .hero-grid{
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap-xl);
+  }
+  .hero-card{
+    min-height: 420px;
+    padding: clamp(24px, 2.6vw, 36px);
+  }
+}
+
+/* ---------------------------
+   Accessibility & niceties
+   --------------------------- */
+
+/* keyboard focus visibility */
+.hero-card:focus-within,
+.hero-card:focus{
+  outline: 3px solid rgba(76,175,80,0.12);
+  outline-offset: 4px;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce){
+  .hero-card,
+  .hero-card:hover,
+  .hero-card:focus-within,
+  .plants-image img{
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* Print-friendly adjustments */
+@media print{
+  .hero-section{ background: #fff; color: #000; padding: 12px; }
+  .hero-card{ box-shadow: none; border-radius: 6px; min-height: 160px; }
+  .plants-image img{ object-fit: cover; }
 }

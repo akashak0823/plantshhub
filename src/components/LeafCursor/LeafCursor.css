@@ -1,18 +1,171 @@
+/* LeafCursor.css
+   Responsive, production-ready styles for the leaf cursor.
+   - All rules are CSS-only
+   - Hides the custom cursor on touch/coarse-pointer devices
+   - Fluid sizes via CSS variables and clamp()
+   - Respect prefers-reduced-motion
+   - High-DPI image support via image-set fallback
+   - Smooth but subtle transforms for hover states
+*/
+
+/* -----------------------
+   Theme / size variables
+   ----------------------- */
+:root {
+  /* base size (will be clamped per viewport) */
+  --leaf-size-min: 20px;
+  --leaf-size-ideal: 30px; /* preferred */
+  --leaf-size-max: 44px;
+
+  /* scale applied when hovering interactive elements */
+  --leaf-hover-scale: 1.35;
+
+  /* rotation applied when hovering interactive elements */
+  --leaf-hover-rotation: 10deg;
+
+  /* transition duration and easing */
+  --leaf-transition: 180ms;
+  --leaf-ease: cubic-bezier(.2,.9,.3,1);
+
+  /* shadow when hovered */
+  --leaf-shadow: 0 6px 18px rgba(46, 204, 113, 0.16);
+}
+
+/* compute a fluid size using clamp() */
 .leaf-cursor {
+  --leaf-size: clamp(var(--leaf-size-min), calc(var(--leaf-size-ideal) + 0.8vw), var(--leaf-size-max));
   position: fixed;
-  width: 30px;
-  height: 30px;
-  background-image: url('/Assets/leaf.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
+  left: 0;
+  top: 0;
+  width: var(--leaf-size);
+  height: var(--leaf-size);
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
-  transition: transform 0.15s ease;
+  display: block;
+
+  /* background image — use image-set for high-DPI support if available */
+  background-image: image-set(
+    url('/Assets/leaf.svg') 1x,
+    url('/Assets/leaf@2x.svg') 2x
+  );
+
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+
+  /* smooth transform and filter changes */
+  transition: transform var(--leaf-transition) var(--leaf-ease), filter var(--leaf-transition) var(--leaf-ease), opacity 140ms ease;
+  will-change: transform, filter, opacity;
+  opacity: 1;
+  /* ensure crisp rendering on some browsers */
+  -webkit-transform: translate3d(0,0,0);
 }
 
-/* On hover over interactive elements */
-.cursor-hover {
-  transform: translate(-50%, -50%) scale(1.4) rotate(10deg);
-  filter: drop-shadow(0 0 4px #4caf50);
+/* hover / interactive state applied by the React component (cursor-hover) */
+.leaf-cursor.cursor-hover {
+  transform: translate(-50%, -50%) scale(var(--leaf-hover-scale)) rotate(var(--leaf-hover-rotation));
+  filter: drop-shadow(var(--leaf-shadow));
+  transition-duration: calc(var(--leaf-transition) * 1.05);
+}
+
+/* slightly different visual when "active" (useful if you add active state) */
+.leaf-cursor.cursor-active {
+  transform: translate(-50%, -50%) scale(calc(var(--leaf-hover-scale) * 1.05)) rotate(calc(var(--leaf-hover-rotation) * 1.1));
+  filter: drop-shadow(0 10px 30px rgba(46,204,113,0.18));
+}
+
+/* subtle idle breathing animation (optional) */
+@media (prefers-reduced-motion: no-preference) {
+  .leaf-cursor {
+    animation: leaf-breathe 6s ease-in-out infinite;
+  }
+
+  @keyframes leaf-breathe {
+    0%   { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+    50%  { transform: translate(-50%, -52%) scale(1.02) rotate(1deg); }
+    100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+  }
+
+  /* Pause breathing while hovering to keep hover transform crisp */
+  .leaf-cursor.cursor-hover {
+    animation-play-state: paused;
+  }
+}
+
+/* -------------------------
+   Responsive tweaks
+   ------------------------- */
+
+/* On very large screens, make the cursor a little larger */
+@media (min-width: 1600px) {
+  .leaf-cursor { --leaf-size-ideal: 40px; }
+}
+
+/* On medium screens, keep base value (default is fine) */
+@media (min-width: 768px) and (max-width: 1599px) {
+  .leaf-cursor { --leaf-size-ideal: 34px; }
+}
+
+/* On small screens, scale down the cursor for space and to avoid occlusion */
+@media (max-width: 479px) {
+  .leaf-cursor {
+    --leaf-size-ideal: 26px;
+    --leaf-size-max: 34px;
+    opacity: 0.95;
+  }
+  .leaf-cursor.cursor-hover {
+    --leaf-hover-scale: 1.18;
+    transform: translate(-50%, -50%) scale(var(--leaf-hover-scale)) rotate(var(--leaf-hover-rotation));
+  }
+}
+
+/* -------------------------
+   Hide on touch / coarse-pointer devices
+   ------------------------- */
+/*
+  Many mobile/touch devices do not have a mouse pointer.
+  Use the pointer hover media features to hide the custom cursor on such devices.
+*/
+@media (hover: none), (pointer: coarse) {
+  .leaf-cursor {
+    display: none !important;
+  }
+}
+
+/* -------------------------
+   Reduced motion preference
+   ------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .leaf-cursor,
+  .leaf-cursor.cursor-hover,
+  .leaf-cursor.cursor-active {
+    transition: none !important;
+    animation: none !important;
+    transform: translate(-50%, -50%) !important; /* no scaling/rotation */
+    filter: none !important;
+  }
+}
+
+/* -------------------------
+   Accessibility: hide during text input or when focusing form controls
+   -------------------------
+   If you want to hide the leaf while typing (so it doesn't cover input caret),
+   the JS can add a class like `hide-cursor` to the body or to the element.
+   The rule below also auto-hides the cursor when an element with :focus is an input
+   by leveraging :focus-within on body (modern browsers).
+*/
+body:focus-within .leaf-cursor,
+input:focus ~ .leaf-cursor,
+textarea:focus ~ .leaf-cursor {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms linear;
+}
+
+/* -------------------------
+   Print: never render the custom cursor
+   ------------------------- */
+@media print {
+  .leaf-cursor { display: none !important; }
 }

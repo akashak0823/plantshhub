@@ -2,16 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* ==========================================================================
+   Global CSS — Mobile-first, responsive, accessible, Tailwind compatible
+   - Keeps your original theme tokens and .dark overrides
+   - Removes global 'cursor: none' and applies sensible cursor rules
+   - Fluid typography via clamp()
+   - Responsive spacing tokens
+   - Accessible focus and reduced motion support
+   ========================================================================== */
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
+/* ------------------------
+   Theme tokens (original values preserved)
+   ------------------------ */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -47,7 +49,17 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* responsive spacing & type */
+    --space-xxs: 6px;
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 20px;
+    --space-lg: 28px;
+    --space-xl: 40px;
+    --max-content-width: 1200px;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -82,26 +94,199 @@ body {
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
-
 }
 
+/* ------------------------
+   Base reset, fluid type & container
+   ------------------------ */
 @layer base {
-  * {
-    @apply border-border;
-  }
+  *, *::before, *::after { box-sizing: border-box; }
 
-  body,
-  a,
-  button,
-  input,
-  textarea,
-  select,
-  label {
-    cursor: none;
+  html {
+    /* fluid base font size for small → large screens */
+    font-size: clamp(14px, 1.6vw, 18px);
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply bg-background text-foreground;
+    margin: 0;
+    min-height: 100vh;
+    background: color-mix(in srgb, hsl(var(--background)) 100%, transparent);
+    color: color-mix(in srgb, hsl(var(--foreground)) 100%, transparent);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    cursor: auto; /* restore default usability */
+  }
+
+  /* default link behavior (no underlines unless styled) */
+  a { color: inherit; text-decoration: none; }
+
+  /* Headings and paragraphs: fluid sizes */
+  h1 { font-size: clamp(1.5rem, 4vw, 2.25rem); margin: .2em 0 .4em; }
+  h2 { font-size: clamp(1.25rem, 3.2vw, 1.75rem); margin: .3em 0 .45em; }
+  h3 { font-size: clamp(1.125rem, 2.4vw, 1.25rem); margin: .35em 0 .45em; }
+  p  { margin: 0 0 1em; font-size: clamp(.95rem, 1.6vw, 1rem); color: color-mix(in srgb, hsl(var(--muted-foreground)) 72%, transparent); }
+
+  /* Global container parity used across components */
+  .container {
+    max-width: var(--max-content-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(12px, 3vw, 28px);
+    padding-right: clamp(12px, 3vw, 28px);
   }
 }
 
+/* ------------------------
+   Cursor / interactive rules (fixed)
+   - Give pointer to interactive elements
+   - text cursor for inputs
+   - hide custom cursors on touch devices
+   ------------------------ */
+@layer base {
+  a, button, summary, [role="button"], label[for], .clickable {
+    cursor: pointer;
+  }
+
+  input, textarea, select, [contenteditable="true"], .text-input {
+    cursor: text;
+  }
+
+  /* Ensure custom cursor elements that rely on JS are removed on coarse/touch */
+  @media (hover: none), (pointer: coarse) {
+    .custom-cursor, .leaf-cursor, .cursor-overlay { display: none !important; }
+  }
+}
+
+/* ------------------------
+   Utility: balanced text fallback + helpers
+   ------------------------ */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+    max-width: 70ch;
+  }
+
+  .sr-only {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+  }
+}
+
+/* ------------------------
+   Responsive spacing: mobile-first tokens
+   ------------------------ */
+@layer base {
+  :root {
+    --space-xxs: 6px;
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 20px;
+    --space-lg: 28px;
+    --space-xl: 40px;
+  }
+
+  @media (min-width: 640px) {
+    :root {
+      --space-sm: 14px;
+      --space-md: 22px;
+      --space-lg: 34px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --space-sm: 16px;
+      --space-md: 24px;
+      --space-lg: 40px;
+    }
+    html { font-size: clamp(15px, 1.35vw, 18px); }
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --space-md: 28px;
+      --space-lg: 48px;
+      --space-xl: 56px;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    :root { --space-xl: 64px; }
+  }
+}
+
+/* ------------------------
+   Focus, accessible outlines & reduced-motion
+   ------------------------ */
+@layer base {
+  :focus { outline: none; }
+
+  :focus-visible {
+    outline: 3px solid color-mix(in srgb, hsl(var(--primary)) 12%, white);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ------------------------
+   Small components: card & button helpers
+   (keeps design consistent across pages)
+   ------------------------ */
+@layer components {
+  .card {
+    background: color-mix(in srgb, hsl(var(--card)) 100%, transparent);
+    color: color-mix(in srgb, hsl(var(--card-foreground)) 100%, transparent);
+    border-radius: var(--radius);
+    padding: var(--space-md);
+    box-shadow: 0 8px 24px rgba(16,24,40,0.04);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: .55rem 1rem;
+    border-radius: .6rem;
+    border: 1px solid color-mix(in srgb, hsl(var(--border)) 60%, transparent);
+    background-color: color-mix(in srgb, hsl(var(--primary)) 100%, transparent);
+    color: color-mix(in srgb, hsl(var(--primary-foreground)) 100%, transparent);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+
+  .btn:hover, .btn:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(16,24,40,0.08);
+  }
+}
+
+/* ------------------------
+   Print adjustments
+   ------------------------ */
+@layer base {
+  @media print {
+    body { background: #fff !important; color: #000 !important; }
+    .no-print { display: none !important; }
+    .container { padding-left: 12px; padding-right: 12px; }
+  }
+}

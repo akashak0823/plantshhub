@@ -1,193 +1,305 @@
-.footer {
-  background: #2c3e50;
-  color: white;
-  padding: 60px 0 0;
+/* Footer.css
+   Production-ready, fully responsive footer styles.
+   - Uses CSS variables for easy theming
+   - Fluid typography with clamp()
+   - Explicit breakpoints for large-desktop, desktop, tablet, mobile, small-mobile
+   - Accessible focus states and reduced-motion support
+   - All changes are contained to CSS only (no HTML changes required)
+*/
+
+/* ---------------------------
+   Theme variables (tweak here)
+   --------------------------- */
+:root{
+  --footer-bg: #2c3e50;
+  --footer-contrast: #ecf0f1;
+  --muted: #bdc3c7;
+  --accent: #4caf50;
+  --panel-bg: #34495e;
+  --link-hover: #7be08b;
+  --max-width: 1200px;
+
+  --space-xxs: 6px;
+  --space-xs: 10px;
+  --space-sm: 14px;
+  --space-md: 20px;
+  --space-lg: 28px;
+  --space-xl: 40px;
+
+  --radius-md: 10px;
+
+  --shadow-soft: 0 6px 18px rgba(0,0,0,0.12);
 }
 
-.footer-content {
+/* Global container parity */
+.container{
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(12px, 3vw, 24px);
+  padding-right: clamp(12px, 3vw, 24px);
+  box-sizing: border-box;
+}
+
+/* ---------------------------
+   Footer: overall
+   --------------------------- */
+.footer{
+  background: var(--footer-bg);
+  color: var(--footer-contrast);
+  padding-top: clamp(36px, 5.6vw, 72px);
+  padding-bottom: clamp(20px, 3.2vw, 40px);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* layout for the main content area */
+.footer-content{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-  margin-bottom: 40px;
+  grid-template-columns: 1fr; /* mobile-first: single column */
+  gap: clamp(20px, 2.5vw, 40px);
+  margin-bottom: var(--space-lg);
 }
 
-.footer-section h3 {
-  font-family: "Permanent Marker", cursive;
-  font-size: 28px;
-  font-weight: bold;
+/* Header / Brand block */
+.footer-section h3{
+  /* decorative brand style; keep it scalable */
+  font-family: "Permanent Marker", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  font-weight: 700;
+  font-size: clamp(20px, 2.6vw, 28px);
+  
   color: #4caf50;
-  margin-bottom: 20px;
+  
+  margin: 0 0 var(--space-sm) 0;
+  letter-spacing: -0.01em;
 }
 
-.footer-section h4 {
-  font-size: 20px;
+/* Subheadings */
+.footer-section h4{
+  font-size: clamp(16px, 1.8vw, 20px);
+  color: var(--footer-contrast);
+  margin: 0 0 var(--space-sm) 0;
   font-weight: 600;
-  margin-bottom: 20px;
-  color: #ecf0f1;
 }
 
-.footer-section p {
+/* Paragraphs & text */
+.footer-section p,
+.footer-section li,
+.contact-info p{
+  color: var(--muted);
+  margin: 0 0 var(--space-sm) 0;
   line-height: 1.6;
-  color: #bdc3c7;
-  margin-bottom: 20px;
+  font-size: clamp(13px, 1.6vw, 15px);
 }
 
-.social-links {
+/* Social links */
+.social-links{
   display: flex;
-  gap: 15px;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
 }
 
-.social-links a {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  background: #34495e;
+.social-links a{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--panel-bg);
   border-radius: 50%;
-  text-align: center;
-  line-height: 40px;
-  font-size: 18px;
-  transition: all 0.3s ease;
   text-decoration: none;
+  color: var(--footer-contrast);
+  font-size: 18px;
+  transition: transform 180ms ease, background 180ms ease;
+  box-shadow: var(--shadow-soft);
 }
 
-.social-links a:hover {
-  background: #4caf50;
-  transform: translateY(-3px);
+.social-links a:hover,
+.social-links a:focus{
+  background: var(--accent);
+  transform: translateY(-4px);
+  color: white;
+  outline: none;
 }
 
-.footer-section ul {
+/* Lists */
+.footer-section ul{
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.footer-section ul li {
-  margin-bottom: 12px;
+.footer-section ul li{
+  margin-bottom: 10px;
 }
 
-.footer-section ul li a {
-  color: #bdc3c7;
+.footer-section ul li a{
+  color: var(--muted);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 160ms ease, transform 160ms ease;
+  font-size: clamp(13px, 1.6vw, 15px);
 }
 
-.footer-section ul li a:hover {
-  color: #4caf50;
+.footer-section ul li a:hover,
+.footer-section ul li a:focus{
+  color: var(--accent);
+  transform: translateX(4px);
+  outline: none;
 }
 
-.contact-info p {
-  margin-bottom: 12px;
+/* Contact info rows */
+.contact-info p{
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+  font-size: clamp(13px, 1.6vw, 15px);
+}
+
+/* Footer bottom area */
+.footer-bottom{
+  border-top: 1px solid rgba(52,73,94,0.35);
+  padding-top: clamp(14px, 2vw, 26px);
+  padding-bottom: clamp(12px, 1.8vw, 20px);
+}
+
+.footer-bottom-content{
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-
-.footer-bottom {
-  border-top: 1px solid #34495e;
-  padding: 30px 0;
-}
-
-.footer-bottom-content {
-  display: flex;
   justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+/* small text */
+.footer-bottom p{
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(13px, 1.4vw, 14px);
+}
+
+/* footer bottom links */
+.footer-links{
+  display: flex;
+  gap: clamp(10px, 2vw, 24px);
   align-items: center;
   flex-wrap: wrap;
-  gap: 20px;
 }
 
-.footer-bottom p {
-  margin: 0;
-  color: #bdc3c7;
-}
-
-.footer-links {
-  display: flex;
-  gap: 25px;
-}
-
-.footer-links a {
-  color: #bdc3c7;
+.footer-links a{
+  color: var(--muted);
   text-decoration: none;
-  font-size: 14px;
-  transition: color 0.3s ease;
+  font-size: clamp(12px, 1.4vw, 14px);
+  transition: color 160ms ease;
 }
 
-.footer-links a:hover {
-  color: #4caf50;
+.footer-links a:hover,
+.footer-links a:focus{
+  color: var(--accent);
+  outline: none;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .footer {
-    padding: 40px 0 0;
+/* ---------------------------
+   Larger viewports: multi-column layout
+   --------------------------- */
+
+/* Tablet: 2 columns (brand + other columns) */
+@media (min-width: 640px){
+  .footer-content{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(22px, 2.2vw, 36px);
   }
 
-  .footer-content {
+  .footer-section p,
+  .footer-section li,
+  .contact-info p{
+    font-size: clamp(14px, 1.4vw, 15px);
+  }
+}
+
+/* Desktop: 4 columns for content sections */
+@media (min-width: 992px){
+  .footer-content{
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(28px, 2.6vw, 48px);
+    align-items: start;
+  }
+
+  .footer-bottom-content{
+    gap: var(--space-lg);
+  }
+}
+
+/* Extra large: center container and add spacing */
+@media (min-width: 1400px){
+  .container{ max-width: 1400px; }
+  .footer{ padding-top: clamp(48px, 5.6vw, 100px); padding-bottom: clamp(28px, 3.5vw, 48px); }
+}
+
+/* ---------------------------
+   Accessibility & small niceties
+   --------------------------- */
+/* Make sure keyboard users can see focus */
+a:focus, button:focus, .footer-section a:focus{
+  outline: 3px solid rgba(76,175,80,0.12);
+  outline-offset: 2px;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{
+    transition: none !important;
+  }
+}
+
+/* ---------------------------
+   Small screens adjustments (stacking, spacing)
+   --------------------------- */
+@media (max-width: 639px){
+  .footer{
+    padding-top: clamp(24px, 6vw, 40px);
+    padding-bottom: clamp(18px, 3.2vw, 28px);
+  }
+
+  .footer-content{
     grid-template-columns: 1fr;
-    gap: 30px;
-    text-align: center;
+    gap: 20px;
+    text-align: left;
   }
 
-  .footer-section h3 {
-    font-size: 24px;
+  .footer-section h3{
+    text-align: left;
   }
 
-  .footer-section h4 {
-    font-size: 18px;
-  }
-
-  .social-links {
-    justify-content: center;
-  }
-
-  .footer-bottom-content {
+  .social-links{ justify-content: flex-start; }
+  .footer-bottom-content{
     flex-direction: column;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
   }
 
-  .footer-links {
-    justify-content: center;
-    flex-wrap: wrap;
+  .footer-links{
+    justify-content: flex-start;
+    gap: 12px;
   }
 }
 
-@media (max-width: 480px) {
-  .footer {
-    padding: 30px 0 0;
-  }
+/* Very small screens: small typography and tighter spacing */
+@media (max-width: 420px){
+  .footer{ padding-top: 18px; padding-bottom: 14px; }
+  .footer-section h3{ font-size: 20px; }
+  .footer-section h4{ font-size: 16px; }
+  .footer-section p, .contact-info p, .footer-bottom p{ font-size: 13px; }
+  .social-links a{ width: 38px; height: 38px; font-size: 16px; line-height: 38px; }
+  .footer-links a{ font-size: 12px; gap: 8px; }
+  .footer-bottom-content{ gap: 12px; }
+}
 
-  .footer-content {
-    gap: 25px;
-  }
-
-  .footer-section h3 {
-    font-size: 22px;
-  }
-
-  .footer-section h4 {
-    font-size: 16px;
-  }
-
-  .footer-section p {
-    font-size: 14px;
-  }
-
-  .social-links a {
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
-    font-size: 16px;
-  }
-
-  .contact-info p {
-    font-size: 14px;
-  }
-
-  .footer-links {
-    gap: 15px;
-  }
-
-  .footer-links a {
-    font-size: 12px;
-  }
+/* Print friendly */
+@media print{
+  .footer{ background: #fff; color: #000; }
+  .footer-section h3, .footer-section h4{ color: #000; }
+  .footer-section p, .footer-links a{ color: #333; }
+  .social-links a{ display: none; }
+  .footer-bottom{ border-top: 1px solid #ddd; }
 }
