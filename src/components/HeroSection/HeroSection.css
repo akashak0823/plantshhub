@@ -1,0 +1,109 @@
+.hero-section {
+  padding: 40px 30px;
+  background: #f8f9fa;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+  min-height: 300px;
+}
+
+.hero-card {
+  border-radius: 20px;
+  padding: 30px;
+  height: 100%;
+  min-height: 370px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(144, 238, 144, 0.4);
+}
+
+
+.plants-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width:100%;
+  height:100%;
+}
+
+.plants-image img {
+  width: 100%;
+  height: 100%; 
+  object-position: center;
+  display: block;
+  border-radius: 20px; 
+}
+
+.card-dots {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transition: background 0.3s ease;
+}
+
+.dot.active {
+  background: white;
+}
+
+/* Responsive */
+@media (max-width: 1376px) {
+  .hero-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+
+  .cactus-card {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .hero-card {
+    padding: 25px;
+    min-height: 300px;
+  }
+
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 20px 0;
+  }
+
+  .hero-card {
+    padding: 20px;
+    min-height: 250px;
+  }
+
+  .card-content h2,
+  .hero-card h2 {
+    font-size: 20px;
+  }
+
+  .green-life-card h2 {
+    font-size: 24px;
+  }
+}

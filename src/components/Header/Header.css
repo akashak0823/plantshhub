@@ -1,0 +1,182 @@
+.header {
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.trust-badges {
+  background: #f8f9fa;
+  padding: 8px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.badges-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.badge-icon {
+  font-size: 22px;
+}
+
+.main-nav {
+  padding: 15px 0;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+}
+
+.logo h1 {
+  color: #4caf50;
+  font-family: "Permanent Marker", cursive;
+  font-weight: 400;
+  font-size:35px;
+  font-style: normal;
+  margin-left:0.1px;
+}
+
+.logo{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left:50px;
+}
+
+.logo-image {
+  width:150px;
+  height:150px;
+  margin-left:50px;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  margin-left:200px;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: #014421;
+  font-weight: 500;
+  font-size: 20px;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.nav-menu a:hover {
+  color: #4caf50;
+}
+
+.nav-menu a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: #4caf50;
+  transition: width 0.3s ease;
+}
+
+.nav-menu a:hover::after {
+  width: 100%;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  margin-left:200px;
+}
+
+.search-btn ,
+.cart-btn {
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: none;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.search-btn:hover,
+.cart-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .badges-list {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .badge {
+    font-size: 10px;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .nav-menu.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .logo h1 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .badges-list {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .badge {
+    font-size: 9px;
+  }
+}

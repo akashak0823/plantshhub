@@ -1,0 +1,18 @@
+.leaf-cursor {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  background-image: url('/src/Assets/leaf.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease;
+}
+
+/* On hover over interactive elements */
+.cursor-hover {
+  transform: translate(-50%, -50%) scale(1.4) rotate(10deg);
+  filter: drop-shadow(0 0 4px #4caf50);
+}

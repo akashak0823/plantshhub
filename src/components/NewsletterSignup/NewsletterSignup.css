@@ -1,0 +1,126 @@
+.newsletter-signup {
+  padding: 80px 0;
+  background: #f3fdf4; /* Soft light green background */
+  color: #2e7d32; /* Deep green text */
+  font-family: 'Segoe UI', sans-serif;
+  border-top: 2px dashed #c8e6c9;
+}
+
+.newsletter-content {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.newsletter-text {
+  margin-bottom: 40px;
+}
+
+.newsletter-text h2 {
+  font-size: 34px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #1b5e20;
+}
+
+.newsletter-text p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: #388e3c;
+}
+
+.newsletter-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form-group {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.form-group input {
+  flex: 1;
+  padding: 14px 20px;
+  border: 2px solid #c8e6c9;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  background-color: #fff;
+  transition: border 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #81c784;
+}
+
+.form-group button {
+  padding: 14px 26px;
+  border-radius: 12px;
+  background: #66bb6a;
+  color: white;
+  font-weight: 600;
+  border: none;
+  transition: background 0.3s, transform 0.3s;
+  cursor: none;
+}
+
+.form-group button:hover {
+  background: #4caf50;
+  transform: translateY(-2px);
+}
+
+.privacy-text {
+  font-size: 14px;
+  color: #4e944f;
+  margin-top: 8px;
+  opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .newsletter-signup {
+    padding: 60px 0;
+  }
+
+  .newsletter-text h2 {
+    font-size: 28px;
+  }
+
+  .form-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .form-group input,
+  .form-group button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .newsletter-signup {
+    padding: 40px 0;
+  }
+
+  .newsletter-text h2 {
+    font-size: 24px;
+  }
+
+  .newsletter-text p {
+    font-size: 15px;
+  }
+
+  .form-group input,
+  .form-group button {
+    padding: 12px 18px;
+    font-size: 15px;
+  }
+
+  .privacy-text {
+    font-size: 12px;
+  }
+}
